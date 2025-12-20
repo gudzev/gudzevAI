@@ -16,6 +16,19 @@ header
 {
     width: 100%;
     padding: 20px 20px;
+    height: 70px;
+}
+
+.new-message-row
+{
+    display: block;
+    height: 70px;
+    border-bottom: 1px solid var(--overlay);
+}
+
+.new-message-row li
+{
+    height: 100%;
 }
 
 .fa-icon-header
@@ -47,6 +60,18 @@ header nav ul li a
     cursor: pointer;
     overflow: hidden;
     white-space: nowrap; 
+}
+
+.option-text
+{
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.mobile-heading-nav
+{
+    display: none;
 }
 
 .chat-list
@@ -100,4 +125,62 @@ header nav ul li a > *
 header.closed .option-text
 {
     visibility: hidden;
+}
+
+@media only screen and (max-width: 768px)
+{
+    header
+    {
+        position: fixed;
+        left: 0;
+        top: -100%;
+        right: 0;
+        bottom: 0;
+        height: 100vh;
+        border-right: none;
+        background-color: var(--surface);
+        width: 100vw;
+        min-width: 0;
+        max-width: 100vw;
+    }
+
+    .mobile-heading-nav
+    {
+        display: block;
+        color: var(--text-primary);
+    }
+
+    .menu-row
+    {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        display: flex;
+        justify-content: space-between;
+        background-color: var(--surface);
+    }
+
+    header nav
+    {
+        width: 100vw;
+        height: 100vh;
+        background-color: var(--surface);
+        z-index: 10000;
+        padding-top: 70px;
+    }
+
+    header.open
+    {
+        width: 0;
+        height: 0;
+        top: 0;
+    }
+
+    header.closed
+    {
+        width: 100vw;
+        min-width: 0;
+        height: 100%;
+    }
 }

@@ -9,24 +9,34 @@ export function Header({isOpen, setIsOpen})
     {
         setIsOpen(prev => !prev);
     }
+
+    const closeMenu = () =>
+    {
+        // Sidebar shouldn't be closed on desktop after click
+        if(window.innerWidth <= 768)
+        {
+            setIsOpen(false);
+        }
+    }
     
     return (
-        <header className={isOpen ? "header open" : "header closed"}>
+        <header className={isOpen ? "open" : "closed"}>
             <nav>
 
                 <div className="menu-row">
                     <FontAwesomeIcon icon={faBars} size="xl" className="fa-icon-header" onClick={toggleIsOpen}/>
+                    <h2 className="mobile-heading-nav">gudzevAI</h2>
                 </div>
 
-                <ul>
-                    <li><a><FontAwesomeIcon icon={faMessage} size="xl" className="fa-icon-header" /><span className="option-text">New Chat</span></a></li>
+                <ul className="new-message-row">
+                    <li><a onClick={closeMenu}><FontAwesomeIcon icon={faMessage} size="xl" className="fa-icon-header" /><span className={`option-text display-chats-${isOpen}`}>New Chat</span></a></li>
                 </ul>
 
                 <ul className={`chat-list display-chats-${isOpen}`}>
                     <h3>Your Chats</h3>
-                    <li><a>Razgovor 1</a></li>
-                    <li><a>Razgovor 2</a></li>
-                    <li><a>Razgovor 3</a></li>
+                    <li><a onClick={closeMenu}>Razgovor 1</a></li>
+                    <li><a onClick={closeMenu}>Razgovor 2</a></li>
+                    <li><a onClick={closeMenu}>Razgovor 3</a></li>
                 </ul>
             </nav>
         </header>

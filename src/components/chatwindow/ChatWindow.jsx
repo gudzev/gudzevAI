@@ -25,9 +25,9 @@ export function ChatWindow({isOpen})
                     <ChatMessage text="ffff" sender="human" />
                     <ChatMessage text="Hello, how may I help you?" sender="robot" />
                     <ChatMessage text="ffff" sender="human" />
-                    <ChatMessage text="Hello, how may I help you?" sender="robot" />
-                    <ChatMessage text="ffff" sender="human" />
-                    <ChatMessage text="Hello, how may I help you?" sender="robot" />
+                    <ChatMessage text="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" sender="robot" />
+                    <ChatMessage text="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" sender="human" />
+                    <ChatMessage text="Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?" sender="robot" />
                 </div>
 
 
@@ -38,6 +38,8 @@ export function ChatWindow({isOpen})
                         <FontAwesomeIcon icon={faPaperPlane} size="xl" className="fa-icon-header" onClick={sendMessage}/>
                     </div>
                 </div>
+
+                <h6>gudzevAI zna da pogreši, pa proverite odgovore.</h6>
             </div>
         </main>
     )

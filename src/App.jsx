@@ -10,7 +10,7 @@ import { NotFoundPage } from './pages/NotFoundPage.jsx';
 
 function App() 
 {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     // isOpen is managing sidebar, as well as the scaling of chat window
 
   return (
