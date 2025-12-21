@@ -91,7 +91,7 @@ export function ChatWindow({isOpen, messages, setMessages})
                 {
                     messages?.map((message) =>
                     {
-                        return <Animate duration={.75} key={message.key}><ChatMessage sender={message.sender} text={message.text} key={message.key} /></Animate>
+                        return <Animate duration={.6} key={message.key}><ChatMessage sender={message.sender} text={message.text} key={message.key} /></Animate>
                     })
                 }
 
@@ -99,7 +99,7 @@ export function ChatWindow({isOpen, messages, setMessages})
                 </div>
 
 
-                <Animate duration={.75}>
+                <Animate duration={1}>
                     <div className={`text-input-div text-input-enabled-${textInputEnabled}`}>
                         <textarea
                         type="text"

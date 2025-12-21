@@ -42,6 +42,7 @@ main
     flex-direction: column;
     justify-content: space-evenly;
     flex-grow: 1;
+    background-color: transparent;
 }
 
 .text-input
@@ -72,6 +73,7 @@ main
     border: 2px solid var(--overlay);
     display: flex;
     background-color: var(--surface);
+    z-index: 500;
 }
 
 .image-avatar
@@ -83,6 +85,7 @@ main
 
 .message
 {
+    position: relative;
     min-width: 100px;
     width: fit-content;
     display: flex;
@@ -176,6 +179,8 @@ main
     padding: 20px 0px;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    margin-bottom: -1rem;
+    padding-bottom: 2rem;
 }
 
 .send-btn
@@ -198,7 +203,7 @@ main
         align-items: center;
         flex-direction: column;
         padding-top: 5vh;
-        padding-bottom: 4vh;
+        padding-bottom: 7.5vh;
         margin-left: 0px;
         min-height: 100vh;
     }
@@ -206,6 +211,12 @@ main
     .reduce-margin
     {
         margin-left: 0px;
+    }
+
+    .messages
+    {
+        overflow: visible;
+        overflow-y: scroll;
     }
 
     .chat-content

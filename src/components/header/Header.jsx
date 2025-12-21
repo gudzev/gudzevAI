@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faMessage } from "@fortawesome/free-solid-svg-icons";
 import { Animate } from "../../utils/animate";
 
-export function Header({isOpen, setIsOpen, chats})
+export function Header({isOpen, setIsOpen})
 {
     const toggleIsOpen = () =>
     {
@@ -17,7 +17,6 @@ export function Header({isOpen, setIsOpen, chats})
         if(window.innerWidth <= 768)
         {
             setIsOpen(false);
-            console.log(chats);
         }
     }
     
