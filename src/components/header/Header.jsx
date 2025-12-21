@@ -2,8 +2,9 @@ import "./Header.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faMessage } from "@fortawesome/free-solid-svg-icons";
+import { Animate } from "../../utils/animate";
 
-export function Header({isOpen, setIsOpen})
+export function Header({isOpen, setIsOpen, chats})
 {
     const toggleIsOpen = () =>
     {
@@ -16,6 +17,7 @@ export function Header({isOpen, setIsOpen})
         if(window.innerWidth <= 768)
         {
             setIsOpen(false);
+            console.log(chats);
         }
     }
     
@@ -34,9 +36,14 @@ export function Header({isOpen, setIsOpen})
 
                 <ul className={`chat-list display-chats-${isOpen}`}>
                     <h3>Your Chats</h3>
-                    <li><a onClick={closeMenu}>Razgovor 1</a></li>
-                    <li><a onClick={closeMenu}>Razgovor 2</a></li>
-                    <li><a onClick={closeMenu}>Razgovor 3</a></li>
+                    {
+                        /*
+                        chats?.map((chat) =>
+                        {
+                            return <li key={chat.ID}><a onClick={closeMenu}>{chat.name}</a></li>
+                        })
+                        */
+                    }
                 </ul>
             </nav>
         </header>

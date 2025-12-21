@@ -8,9 +8,15 @@ Test the live app here:
 
 ## 📡 API
 
-## 📋 Features
+gudzevAI uses free API from [OpenRouter](https://openrouter.ai/)
+
+## 📋 Description
+
+- This project uses OpenRouter's free AI models to talk with users. It features a clean and responsive design.
 
 ## 🚧 To Do
+
+- Enable users to create multiple chat windows
 
 ## 🛠️ Tech Stack
 

@@ -4,6 +4,7 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { ChatMessage } from "./ChatMessage";
+import { Animate } from "../../utils/animate";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -44,9 +45,9 @@ export function ChatWindow({isOpen, messages, setMessages})
         setTextInputEnabled(false);
 
         const request = await axios.post("/.netlify/functions/api", 
-            {
+        {
                 message: newUserMessage.text,
-            });
+        });
         const response = request.data.text;
 
         const newRobotMessage =
@@ -79,7 +80,9 @@ export function ChatWindow({isOpen, messages, setMessages})
     return (
         <main className={(isOpen == true) ? "" : "reduce-margin"}>
             <div className="main-heading">
-                <h1>gudzevAI</h1>
+                <Animate duration={1} >
+                    <h1>gudzevAI</h1>
+                </Animate>
             </div>
 
             <div className="chat-content">
@@ -88,7 +91,7 @@ export function ChatWindow({isOpen, messages, setMessages})
                 {
                     messages?.map((message) =>
                     {
-                        return <ChatMessage sender={message.sender} text={message.text} key={message.key} />
+                        return <Animate duration={.75} key={message.key}><ChatMessage sender={message.sender} text={message.text} key={message.key} /></Animate>
                     })
                 }
 
@@ -96,20 +99,22 @@ export function ChatWindow({isOpen, messages, setMessages})
                 </div>
 
 
-                <div className={`text-input-div text-input-enabled-${textInputEnabled}`}>
-                    <textarea
-                     type="text"
-                     className="text-input poppins-regular"
-                     placeholder="Your message..."
-                     onChange={saveText}
-                     onKeyDown={handleKey}
-                     value={text}
-                     disabled={!textInputEnabled}/>
+                <Animate duration={.75}>
+                    <div className={`text-input-div text-input-enabled-${textInputEnabled}`}>
+                        <textarea
+                        type="text"
+                        className="text-input poppins-regular"
+                        placeholder="Your message..."
+                        onChange={saveText}
+                        onKeyDown={handleKey}
+                        value={text}
+                        disabled={!textInputEnabled}/>
 
-                    <div className="send-btn-wrapper">
-                        <FontAwesomeIcon icon={faPaperPlane} size="xl" className="fa-icon-header" onClick={sendMessage} />
+                        <div className="send-btn-wrapper">
+                            <FontAwesomeIcon icon={faPaperPlane} size="xl" className="fa-icon-header send-btn" onClick={sendMessage} />
+                        </div>
                     </div>
-                </div>
+                </Animate>
 
                 <h6>gudzevAI zna da pogreši, pa proverite odgovore.</h6>
             </div>
