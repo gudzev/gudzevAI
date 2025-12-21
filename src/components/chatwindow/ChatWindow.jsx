@@ -7,9 +7,12 @@ import { ChatMessage } from "./ChatMessage";
 
 import { useState, useEffect, useRef } from "react";
 
+import axios from "axios";
+
 export function ChatWindow({isOpen, messages, setMessages})
 {
     const [text, setText] = useState("");
+    const [textInputEnabled, setTextInputEnabled] = useState(true);
 
     // Setting messages in local storage
     useEffect(() =>
@@ -25,19 +28,36 @@ export function ChatWindow({isOpen, messages, setMessages})
     }, [messages]);
 
     // Sending messages
-    const sendMessage = () =>
+    const sendMessage = async () =>
     {
         if(!text) return;
 
-        const newMessage =
+        const newUserMessage =
         {
             text: text,
             sender: "human",
             key: crypto.randomUUID(),
         };
 
-        setMessages(prev => [...prev, newMessage])
+        setMessages(prev => [...prev, newUserMessage]);
         setText("");
+        setTextInputEnabled(false);
+
+        const request = await axios.post("/.netlify/functions/api", 
+            {
+                message: newUserMessage.text,
+            });
+        const response = request.data.text;
+
+        const newRobotMessage =
+        {
+            text: response,
+            sender: "robot",
+            key: crypto.randomUUID(),
+        }
+
+        setMessages(prev => [...prev, newRobotMessage]);
+        setTextInputEnabled(true);
     }
 
     // Saving input text on change
@@ -76,8 +96,15 @@ export function ChatWindow({isOpen, messages, setMessages})
                 </div>
 
 
-                <div className="text-input-div">
-                    <textarea type="text" className="text-input poppins-regular" placeholder="Your message..." onChange={saveText} onKeyDown={handleKey} value={text}/>
+                <div className={`text-input-div text-input-enabled-${textInputEnabled}`}>
+                    <textarea
+                     type="text"
+                     className="text-input poppins-regular"
+                     placeholder="Your message..."
+                     onChange={saveText}
+                     onKeyDown={handleKey}
+                     value={text}
+                     disabled={!textInputEnabled}/>
 
                     <div className="send-btn-wrapper">
                         <FontAwesomeIcon icon={faPaperPlane} size="xl" className="fa-icon-header" onClick={sendMessage} />

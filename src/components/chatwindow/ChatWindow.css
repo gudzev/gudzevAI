@@ -23,6 +23,11 @@ main
     left: 1%;
 }
 
+.text-input-enabled-false
+{
+    outline: 1px solid var(--error) !important;
+}
+
 .main-heading h1
 {
     color: var(--text-primary);
@@ -88,9 +93,31 @@ main
     border-radius: 25px;
     border: 1px solid var(--overlay);
     margin-top: 20px;
-    max-width: 80%;
+    max-width: 90%;
     padding: 5px 5px;
     word-break: break-all;
+    white-space: pre-wrap;
+}
+
+.message-content
+{
+    padding: 10px;
+    color: var(--text-primary);
+}
+
+.message-content code
+{
+    background-color: #27293d;
+    color: #f8f8f2;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem;
+}
+
+.message-content ul, .message-content ol 
+{
+    padding: 20px;
 }
 
 .chat-content h6
@@ -120,12 +147,6 @@ main
     align-items: center;
     height: 100%;
     width: auto;
-}
-
-.message p
-{
-    padding: 10px;
-    color: var(--text-primary);
 }
 
 .messages
