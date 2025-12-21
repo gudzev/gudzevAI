@@ -99,7 +99,7 @@ main
     padding: 5px 5px;
     word-break: break-word;
     white-space: pre-wrap;
-    overflow-x: scroll;
+    overflow-x: hidden;
 }
 
 .message-content
