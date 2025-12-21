@@ -1,7 +1,6 @@
-// 1. CommonJS require
-const { OpenRouter } = require("@openrouter/sdk");
+import { OpenRouter } from "@openrouter/sdk";
 
-exports.handler = async (event, context) => 
+export async function handler(event)
 {
   try 
   {
