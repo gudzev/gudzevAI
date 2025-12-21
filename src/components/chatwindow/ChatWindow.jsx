@@ -5,11 +5,55 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { ChatMessage } from "./ChatMessage";
 
-export function ChatWindow({isOpen})
+import { useState, useEffect, useRef } from "react";
+
+export function ChatWindow({isOpen, messages, setMessages})
 {
+    const [text, setText] = useState("");
+
+    // Setting messages in local storage
+    useEffect(() =>
+    {
+        localStorage.setItem("userMessages", JSON.stringify(messages));
+    }, [messages]);
+
+    // Scrolling after user sends a message
+    const lastMessage = useRef(null);
+    useEffect(() =>
+    {
+        lastMessage.current.scrollIntoView();
+    }, [messages]);
+
+    // Sending messages
     const sendMessage = () =>
     {
-        console.log("message sent.");
+        if(!text) return;
+
+        const newMessage =
+        {
+            text: text,
+            sender: "human",
+            key: crypto.randomUUID(),
+        };
+
+        setMessages(prev => [...prev, newMessage])
+        setText("");
+    }
+
+    // Saving input text on change
+    const saveText = (event) =>
+    {
+        setText(event.target.value);
+    }
+
+    // Enabling sending messages on enter
+    const handleKey = (event) =>
+    {
+        if(event.key == "Enter" && !event.shiftKey)
+        {
+            event.preventDefault();
+            sendMessage();
+        }
     }
 
     return (
@@ -21,21 +65,22 @@ export function ChatWindow({isOpen})
             <div className="chat-content">
 
                 <div className="messages">
-                    <ChatMessage text="Hello, how may I help you?" sender="robot" />
-                    <ChatMessage text="ffff" sender="human" />
-                    <ChatMessage text="Hello, how may I help you?" sender="robot" />
-                    <ChatMessage text="ffff" sender="human" />
-                    <ChatMessage text="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" sender="robot" />
-                    <ChatMessage text="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" sender="human" />
-                    <ChatMessage text="Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?Hello, how may I help you?" sender="robot" />
+                {
+                    messages?.map((message) =>
+                    {
+                        return <ChatMessage sender={message.sender} text={message.text} key={message.key} />
+                    })
+                }
+
+                    <div ref={lastMessage}></div>
                 </div>
 
 
                 <div className="text-input-div">
-                    <textarea type="text" className="text-input poppins-regular" placeholder="Your message..."/>
+                    <textarea type="text" className="text-input poppins-regular" placeholder="Your message..." onChange={saveText} onKeyDown={handleKey} value={text}/>
 
                     <div className="send-btn-wrapper">
-                        <FontAwesomeIcon icon={faPaperPlane} size="xl" className="fa-icon-header" onClick={sendMessage}/>
+                        <FontAwesomeIcon icon={faPaperPlane} size="xl" className="fa-icon-header" onClick={sendMessage} />
                     </div>
                 </div>
 
