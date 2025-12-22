@@ -15,16 +15,11 @@ export function ChatWindow({isOpen, messages, setMessages})
     const [text, setText] = useState("");
     const [textInputEnabled, setTextInputEnabled] = useState(true);
 
-    // Setting messages in local storage
-    useEffect(() =>
-    {
-        localStorage.setItem("userMessages", JSON.stringify(messages));
-    }, [messages]);
-
-    // Scrolling after user sends a message
+    // Scrolling after user sends a message, saving messages into localStorage
     const lastMessage = useRef(null);
     useEffect(() =>
     {
+        localStorage.setItem("userMessages", JSON.stringify(messages));
         lastMessage.current.scrollIntoView();
     }, [messages]);
 
@@ -44,11 +39,22 @@ export function ChatWindow({isOpen, messages, setMessages})
         setText("");
         setTextInputEnabled(false);
 
+        const temporaryMessage =
+        {
+            text: "gudzevAI is thinking...",
+            sender: "robot",
+            key: crypto.randomUUID(),
+        }
+
+        setMessages(prev => [...prev, temporaryMessage]);
+
         const request = await axios.post("/.netlify/functions/api", 
         {
                 message: newUserMessage.text,
         });
         const response = request.data.text;
+
+        setMessages(prev => prev.filter((message) => message.key != temporaryMessage.key))
 
         const newRobotMessage =
         {
