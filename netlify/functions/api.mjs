@@ -5,10 +5,10 @@ export async function handler(event)
   try 
   {
     const data = JSON.parse(event.body);
-    const message = data.message;
+    const messages = data.messages;
 
     // Checking for empty messages
-    if (!message)
+    if (!messages)
     {
       return {
         statusCode: 400,
@@ -31,7 +31,7 @@ export async function handler(event)
 
     const completion = await openRouter.chat.send({
       model: "google/gemini-2.0-flash-001",
-      messages: [{ role: "user", content: message }],
+      messages: messages,
     });
 
     // Good Request

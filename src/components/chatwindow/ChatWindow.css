@@ -151,13 +151,13 @@ main
     font-weight: 400;
 }
 
-.message-robot
+.message-assistant
 {
     flex-direction: row-reverse;
     margin-left: auto;
 }
 
-.message-human
+.message-user
 {
     flex-direction: row;
     margin-right: auto;

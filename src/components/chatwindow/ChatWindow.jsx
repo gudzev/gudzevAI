@@ -20,7 +20,7 @@ export function ChatWindow({isOpen, messages, setMessages})
     useEffect(() =>
     {
         localStorage.setItem("userMessages", JSON.stringify(messages));
-        lastMessage.current.scrollIntoView();
+        lastMessage.current?.scrollIntoView();
     }, [messages]);
 
     // Sending messages
@@ -30,19 +30,21 @@ export function ChatWindow({isOpen, messages, setMessages})
 
         const newUserMessage =
         {
-            text: text,
-            sender: "human",
+            content: text,
+            role: "user",
             key: crypto.randomUUID(),
         };
 
-        setMessages(prev => [...prev, newUserMessage]);
+        const newMessages = [...messages, newUserMessage];
+
+        setMessages(newMessages);
         setText("");
         setTextInputEnabled(false);
 
         const temporaryMessage =
         {
-            text: "gudzevAI is thinking...",
-            sender: "robot",
+            content: "gudzevAI is thinking...",
+            role: "assistant",
             key: crypto.randomUUID(),
         }
 
@@ -50,7 +52,7 @@ export function ChatWindow({isOpen, messages, setMessages})
 
         const request = await axios.post("/.netlify/functions/api", 
         {
-                message: newUserMessage.text,
+            messages: newMessages.slice(-5), // Limiting to last 5 messages
         });
         const response = request.data.text;
 
@@ -58,8 +60,8 @@ export function ChatWindow({isOpen, messages, setMessages})
 
         const newRobotMessage =
         {
-            text: response,
-            sender: "robot",
+            content: response,
+            role: "assistant",
             key: crypto.randomUUID(),
         }
 
@@ -97,7 +99,7 @@ export function ChatWindow({isOpen, messages, setMessages})
                 {
                     messages?.map((message) =>
                     {
-                        return <Animate duration={.6} key={message.key}><ChatMessage sender={message.sender} text={message.text} key={message.key} /></Animate>
+                        return <Animate duration={.6} key={message.key}><ChatMessage role={message.role} content={message.content} key={message.key} /></Animate>
                     })
                 }
 

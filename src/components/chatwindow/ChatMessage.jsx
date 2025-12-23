@@ -1,14 +1,14 @@
 import ReactMarkdown from "react-markdown";
 
-export function ChatMessage({text, sender})
+export function ChatMessage({content, role})
 {
-    let displayImage = (sender == "robot") ? "/images/robot.png" : "/images/human.png";
+    let displayImage = (role == "assistant") ? "/images/robot.png" : "/images/human.png";
 
     return (
-            <div className={`message message-${sender}`}>
-                <img src={displayImage} alt={`${sender} avatar`} className="image-avatar"/>
+            <div className={`message message-${role}`}>
+                <img src={displayImage} alt={`${role} avatar`} className="image-avatar"/>
                 <div className="message-content">
-                    <ReactMarkdown>{text}</ReactMarkdown>
+                    <ReactMarkdown>{content}</ReactMarkdown>
                 </div>
             </div>
     )
