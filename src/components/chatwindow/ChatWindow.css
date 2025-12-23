@@ -99,7 +99,7 @@ main
     padding: 5px 5px;
     word-break: break-word;
     white-space: pre-wrap;
-    overflow-x: scroll;
+    overflow-x: hidden;
 }
 
 .message-content
@@ -126,7 +126,7 @@ main
 
 .message-content pre
 {
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: hidden;
     padding-bottom: 30px;
 }
@@ -183,6 +183,12 @@ main
     padding-bottom: 2rem;
 }
 
+/* Hiding scrollbar from Chrome */
+.messages::-webkit-scrollbar 
+{
+    display: none;
+}
+
 .send-btn
 {
     transition: all .3s;
@@ -203,7 +209,7 @@ main
         align-items: center;
         flex-direction: column;
         padding-top: 5vh;
-        padding-bottom: 4vh;
+        padding-bottom: 10vh;
         margin-left: 0px;
         min-height: 100vh;
     }
