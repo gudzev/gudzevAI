@@ -13,8 +13,6 @@ function App()
   const [isOpen, setIsOpen] = useState(false);
   // isOpen is managing sidebar, as well as the scaling of chat window
 
-  const [chatCounter, setChatCounter] = useState(2);
-
   const [chats, setChats] = useState(() =>
   {
     const storedChats = JSON.parse(localStorage.getItem("userChats"));
@@ -27,13 +25,15 @@ function App()
     }]
   });
 
+  const [chatCounter, setChatCounter] = useState(chats.length + 1);
+
   const [activeChatID, setActiveChatID] = useState(chats.length > 0 ? chats[0].ID : "");
 
   return (
     <Routes>
         <Route path="/" element={
           <>
-            <Header isOpen={isOpen} setIsOpen={setIsOpen} chats={chats} setChats={setChats} chatCounter={chatCounter} setChatCounter={setChatCounter} setActiveChatID={setActiveChatID}/>
+            <Header isOpen={isOpen} setIsOpen={setIsOpen} chats={chats} setChats={setChats} chatCounter={chatCounter} setChatCounter={setChatCounter} setActiveChatID={setActiveChatID} activeChatID={activeChatID}/>
             <ChatWindow isOpen={isOpen} chats={chats} setChats={setChats} setChatCounter={setChatCounter} chatCounter={chatCounter} activeChatID={activeChatID}/>
           </>
         } />

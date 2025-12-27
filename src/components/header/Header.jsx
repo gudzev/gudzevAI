@@ -6,7 +6,7 @@ import { Animate } from "../../utils/animate";
 
 import { useEffect } from "react";
 
-export function Header({isOpen, setIsOpen, chats, setChats, chatCounter, setChatCounter, setActiveChatID})
+export function Header({isOpen, setIsOpen, chats, setChats, chatCounter, setChatCounter, setActiveChatID, activeChatID})
 {
     useEffect(() =>
     {
@@ -65,7 +65,7 @@ export function Header({isOpen, setIsOpen, chats, setChats, chatCounter, setChat
                     {
                         chats.map((chat) =>
                         {
-                            return <li key={chat.ID} onClick={() => loadChat(chat.ID)}><a>{chat.name}</a></li>
+                            return <li className={ chat.ID === activeChatID ? "active-chat" : ""} key={chat.ID} onClick={() => loadChat(chat.ID)}><a>{chat.name}</a></li>
                         })
                     }
                 </ul>
