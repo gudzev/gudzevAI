@@ -10,22 +10,31 @@ import { NotFoundPage } from './pages/NotFoundPage.jsx';
 
 function App() 
 {
+  const [isOpen, setIsOpen] = useState(false);
+  // isOpen is managing sidebar, as well as the scaling of chat window
 
-    const [isOpen, setIsOpen] = useState(false);
-    // isOpen is managing sidebar, as well as the scaling of chat window
+  const [chatCounter, setChatCounter] = useState(2);
 
-    const [messages, setMessages] = useState(() =>
+  const [chats, setChats] = useState(() =>
+  {
+    const storedChats = JSON.parse(localStorage.getItem("userChats"));
+
+    return (storedChats) ? storedChats : [
     {
-      const userMessages = localStorage.getItem("userMessages");
-      return (userMessages) ? JSON.parse(userMessages) : [];
-    });
+      ID: crypto.randomUUID(),
+      messages: [],
+      name: "Chat 1",
+    }]
+  });
+
+  const [activeChatID, setActiveChatID] = useState(chats.length > 0 ? chats[0].ID : "");
 
   return (
     <Routes>
         <Route path="/" element={
           <>
-            <Header isOpen={isOpen} setIsOpen={setIsOpen}/>
-            <ChatWindow isOpen={isOpen} messages={messages} setMessages={setMessages}/>
+            <Header isOpen={isOpen} setIsOpen={setIsOpen} chats={chats} setChats={setChats} chatCounter={chatCounter} setChatCounter={setChatCounter} setActiveChatID={setActiveChatID}/>
+            <ChatWindow isOpen={isOpen} chats={chats} setChats={setChats} setChatCounter={setChatCounter} chatCounter={chatCounter} activeChatID={activeChatID}/>
           </>
         } />
         <Route path="*" element={<NotFoundPage />}/>
