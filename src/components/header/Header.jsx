@@ -4,8 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faMessage } from "@fortawesome/free-solid-svg-icons";
 import { Animate } from "../../utils/animate";
 
-export function Header({isOpen, setIsOpen})
+import { useEffect } from "react";
+
+export function Header({isOpen, setIsOpen, chats, setChats, chatCounter, setChatCounter, setActiveChatID})
 {
+    useEffect(() =>
+    {
+        localStorage.setItem("userChats", JSON.stringify(chats));
+    }, [chats]);
+    
     const toggleIsOpen = () =>
     {
         setIsOpen(prev => !prev);
@@ -13,11 +20,31 @@ export function Header({isOpen, setIsOpen})
 
     const closeMenu = () =>
     {
-        // Sidebar shouldn't be closed on desktop after click
+        // Sidebar shouldn't be closed on desktop after a click
         if(window.innerWidth <= 768)
         {
             setIsOpen(false);
         }
+    }
+
+    const addNewChat = () =>
+    {
+        const newChat =
+        {
+            ID: crypto.randomUUID(),
+            messages: [],
+            name: "Chat" + ' ' + chatCounter.toString(),
+        };
+
+        setChatCounter(prev => prev + 1);
+        setChats(prev => [...prev, newChat]);
+        setActiveChatID(newChat.ID);
+        closeMenu();
+    }
+
+    const loadChat = (chatID) =>
+    {
+        setActiveChatID(chatID);
     }
     
     return (
@@ -30,18 +57,16 @@ export function Header({isOpen, setIsOpen})
                 </div>
 
                 <ul className="new-message-row">
-                    <li><a onClick={closeMenu}><FontAwesomeIcon icon={faMessage} size="xl" className="fa-icon-header" /><span className={`option-text display-chats-${isOpen}`}>New Chat</span></a></li>
+                    <li><a onClick={addNewChat}><FontAwesomeIcon icon={faMessage} size="xl" className="fa-icon-header" /><span className={`option-text display-chats-${isOpen}`}>New Chat</span></a></li>
                 </ul>
 
                 <ul className={`chat-list display-chats-${isOpen}`}>
                     <h3>Your Chats</h3>
                     {
-                        /*
-                        chats?.map((chat) =>
+                        chats.map((chat) =>
                         {
-                            return <li key={chat.ID}><a onClick={closeMenu}>{chat.name}</a></li>
+                            return <li key={chat.ID} onClick={() => loadChat(chat.ID)}><a>{chat.name}</a></li>
                         })
-                        */
                     }
                 </ul>
             </nav>

@@ -10,8 +10,10 @@ import { useState, useEffect, useRef } from "react";
 
 import axios from "axios";
 
-export function ChatWindow({isOpen, messages, setMessages})
+export function ChatWindow({isOpen, setChats, chats, activeChatID})
 {
+    const currentChat = chats.find((chat) => chat.ID === activeChatID);
+
     const [text, setText] = useState("");
     const [textInputEnabled, setTextInputEnabled] = useState(true);
 
@@ -19,15 +21,16 @@ export function ChatWindow({isOpen, messages, setMessages})
     const lastMessage = useRef(null);
     useEffect(() =>
     {
-        localStorage.setItem("userMessages", JSON.stringify(messages));
+        localStorage.setItem("userChats", JSON.stringify(chats));
         lastMessage.current?.scrollIntoView();
-    }, [messages]);
+    }, [chats]);
 
     // Sending messages
     const sendMessage = async () =>
     {
         if(!text) return;
 
+        let newMessages;
         const newUserMessage =
         {
             content: text,
@@ -35,9 +38,16 @@ export function ChatWindow({isOpen, messages, setMessages})
             key: crypto.randomUUID(),
         };
 
-        const newMessages = [...messages, newUserMessage];
+        newMessages = [...currentChat.messages, newUserMessage];
 
-        setMessages(newMessages);
+        setChats(prev => prev.map((chat) =>
+        {
+           if(chat.ID === activeChatID)
+            {
+                chat.messages = newMessages;
+            }
+            return chat;
+        }));
         setText("");
         setTextInputEnabled(false);
 
@@ -48,7 +58,15 @@ export function ChatWindow({isOpen, messages, setMessages})
             key: crypto.randomUUID(),
         }
 
-        setMessages(prev => [...prev, temporaryMessage]);
+        newMessages = [...newMessages, temporaryMessage];
+        setChats(prev => prev.map((chat) =>
+        {
+            if(chat.ID === activeChatID)
+            {
+                chat.messages = newMessages;
+            }
+            return chat;
+        }));
 
         const request = await axios.post("/.netlify/functions/api", 
         {
@@ -56,7 +74,16 @@ export function ChatWindow({isOpen, messages, setMessages})
         });
         const response = request.data.text;
 
-        setMessages(prev => prev.filter((message) => message.key != temporaryMessage.key))
+
+        newMessages = newMessages.filter((message) => message.ID !== temporaryMessage.key);
+        setChats(prev => prev.map((chat) =>
+        {
+            if(chat.ID === activeChatID)
+            {
+                chat.messages = newMessages;
+            }
+            return chat;
+        }));
 
         const newRobotMessage =
         {
@@ -65,7 +92,18 @@ export function ChatWindow({isOpen, messages, setMessages})
             key: crypto.randomUUID(),
         }
 
-        setMessages(prev => [...prev, newRobotMessage]);
+        newMessages = [...newMessages, newRobotMessage];
+
+        setChats(prev => prev.map((chat) =>
+        {
+           if(chat.ID === activeChatID)
+            {
+                chat.messages = newMessages;
+            }
+
+            return chat;
+        }));
+
         setTextInputEnabled(true);
     }
 
@@ -75,7 +113,7 @@ export function ChatWindow({isOpen, messages, setMessages})
         setText(event.target.value);
     }
 
-    // Enabling sending messages on enter
+    // Enabling sending messages on enter key
     const handleKey = (event) =>
     {
         if(event.key == "Enter" && !event.shiftKey)
@@ -97,7 +135,7 @@ export function ChatWindow({isOpen, messages, setMessages})
 
                 <div className="messages">
                 {
-                    messages?.map((message) =>
+                    currentChat.messages.map((message) =>
                     {
                         return <Animate duration={.6} key={message.key}><ChatMessage role={message.role} content={message.content} key={message.key} /></Animate>
                     })
