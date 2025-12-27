@@ -74,8 +74,7 @@ export function ChatWindow({isOpen, setChats, chats, activeChatID})
         });
         const response = request.data.text;
 
-
-        newMessages = newMessages.filter((message) => message.ID !== temporaryMessage.key);
+        newMessages = newMessages.filter((message) => message.key !== temporaryMessage.key);
         setChats(prev => prev.map((chat) =>
         {
             if(chat.ID === activeChatID)
