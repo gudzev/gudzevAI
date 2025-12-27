@@ -45,6 +45,7 @@ export function Header({isOpen, setIsOpen, chats, setChats, chatCounter, setChat
     const loadChat = (chatID) =>
     {
         setActiveChatID(chatID);
+        closeMenu();
     }
     
     return (
