@@ -127,6 +127,11 @@ header.closed .option-text
     visibility: hidden;
 }
 
+.active-chat
+{
+    background-color: var(--secondary);
+}
+
 @media only screen and (max-width: 768px)
 {
     header
